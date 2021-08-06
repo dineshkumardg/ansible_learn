@@ -1,0 +1,95 @@
+pluralsight: getting started with ansible
+
+https://docs.ansible.com/ansible/latest/index.html
+
+Ansible is an IT automation tool. It can configure systems, deploy software
+and orchestrate more advanced IT tasks such as continuous deployment or zero
+downtime rolling updates.
+
+
+using script to automation is procedural. it only cares about the how insttead
+of what. whereas Ansible is focused on your end goal - desired state.
+It is declarative
+
+----------------------
+you need to only run ansible in the control node. the managed nodes are dumb
+to the fact that you are even using ansibble. for all they know you could be
+manually doing these commands.
+
+ansible ad-hoc:
+is used for running one off scenarios that are  really necessarily to keep
+permanantly. for like testing etc.
+
+once you understand how to run a stand alone ansible module you will learn
+how to run multiple of then using playbook.
+
+ansible -m copy -a "src=master.gitconfig dest=~/.gitconfig" localhost
+-m - module(here we are using copy module)
+
+ansible -m apt -a "name=jq state=latest" localhost
+
+to check your ansible playbook syntax
+
+ansible-playbook sample.yml --syntax-check
+
+when rerun it will not copy again. idempotent - meaning the final state is
+wat the desired state is. same output regardless of input and reruns
+
+ansible is used for configuration, orchestration and deployment
+
+playbook starts with ---(three dashes) which marks the beginning of the
+playbook.
+
+analogy:
+
+docker-cli -------------- docker-compose.yml
+ansible adhoc ----------- playbook.yml
+
+ansible can work with both docker-cli and docker-compose.
+-----
+ansible-playbook sample.yml -v -> verbose more v to create more verbose
+
+
+
+
+
+--------------------
+creating a docker container for testing ansible
+https://stackoverflow.com/questions/28134239/how-to-ssh-into-docker
+Dockerfile:
+FROM ubuntu:16.04
+
+RUN apt-get update && apt-get install -y openssh-server
+RUN mkdir /var/run/sshd
+RUN echo 'root:screencast' | chpasswd
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+# SSH login fix. Otherwise user is kicked off after login
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+
+ENV NOTVISIBLE "in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
+
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]
+------------------------
+Build the image using:
+
+$ docker build -t eg_sshd .
+
+Run a test_sshd container:
+
+$ docker run -d -P --name test_sshd eg_sshd
+$ docker port test_sshd 22
+
+0.0.0.0:49154
+
+Ssh to your container:
+
+to find the ip address of the docker container:
+docker inspect -f "{{ .NetworkSettings.IPAddress }}" container_name
+
+$ ssh root@192.168.1.2 -p 49154
+# The password is ``screencast``.
+root@f38c87f2a42d:/#
+-----------------------------

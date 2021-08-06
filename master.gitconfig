@@ -1,0 +1,9 @@
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+[user]
+[user]
+	name = dineshkumardg
+	email = dineshdg87@gmail.com

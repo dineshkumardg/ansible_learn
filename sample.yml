@@ -1,0 +1,10 @@
+---
+- name: sample book
+  # gather_facts: false
+  hosts: ansible_client docker_client
+  remote_user: timothyrajan
+  become: false
+  tasks:
+    - copy:
+        src: "master.gitconfig"
+        dest: "~/.gitconfig"
