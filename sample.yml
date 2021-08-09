@@ -1,10 +1,20 @@
 ---
-- name: sample book
-  # gather_facts: false
-  hosts: ansible_client docker_client
-  remote_user: timothyrajan
-  become: false
+# - name: sample book
+#   hosts: docker_client
+#   tasks:
+#     - copy:
+#         src: "master.gitconfig"
+#         dest: "~/.gitconfig"
+
+- name: mandatory installations
+  hosts: docker_client
   tasks:
-    - copy:
-        src: "master.gitconfig"
-        dest: "~/.gitconfig"
+    - apt:
+        update_cache: yes
+        name: bat
+        state: latest
+    - apt:
+        update_cache: yes
+        name: jq
+        state: latest
+

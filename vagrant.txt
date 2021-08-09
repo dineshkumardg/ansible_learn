@@ -1,0 +1,3 @@
+vagrant works with type2 hypervisor like vmware virtualbox.
+this is used for testing before creating the actual servver in prod.
+

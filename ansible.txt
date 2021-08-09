@@ -1,6 +1,7 @@
 pluralsight: getting started with ansible
 
 https://docs.ansible.com/ansible/latest/index.html
+https://github.com/g0t4/course-ansible-getting-started
 
 Ansible is an IT automation tool. It can configure systems, deploy software
 and orchestrate more advanced IT tasks such as continuous deployment or zero
@@ -48,6 +49,12 @@ ansible adhoc ----------- playbook.yml
 ansible can work with both docker-cli and docker-compose.
 -----
 ansible-playbook sample.yml -v -> verbose more v to create more verbose
+
+
+-------------------
+ansible inventory:
+
+one control node and multiple managed nodes.
 
 
 
